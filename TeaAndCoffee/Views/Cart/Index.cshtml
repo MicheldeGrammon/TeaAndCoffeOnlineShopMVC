@@ -1,0 +1,84 @@
+﻿@using TeaAndCoffee_Utility;
+@model IEnumerable<Product>
+
+@if (Model.Count() > 0)
+{
+    <form method="post">
+        <br />
+        <div>
+            <div class="container row">
+                <div class="col">
+                    <div class="card mt-4">
+                        <div class="card-header bg-dark text-light" style="font-size:20px">
+                            <div class="row">
+                                <div class="col">
+                                    <i class="fa fa-shopping-cart"></i> &nbsp;
+                                    Shopping Cart
+                                </div>
+                                <div class="col text-end">
+                                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info btn-sm" style="font-size:16px">Continue Shopping</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-lg-block">
+                                <div class="row" style="color:#821f3d">
+                                    <div class="col-3">
+                                        Image
+                                    </div>
+                                    <div class="col-5">
+                                        Product Details
+                                    </div>
+                                    <div class="col text-end">
+                                        Price per 100 gramm
+                                    </div>
+                                    <div class="col text-end">
+                                        Delete
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+                            @foreach (var item in Model)
+                            {
+
+                                <div class="row h-100">
+                                    <div class="col-3">
+                                        <img src="@WC.ImagePath@item.Image" class="rounded" width="100" />
+                                    </div>
+                                    <div class="col-5">
+                                        <h5>@item.Name</h5>
+                                        <div style="font-size:12px;">@item.ShortDescription</div>
+                                    </div>
+                                    <div class="col text-end" style="font-size:12px;">
+                                        <span style="font-size:17px;"> @item.Price.ToString("c")</span>/ 100 gramm
+
+                                    </div>
+                                    <div class="col text-end">
+                                        <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                            <hr />
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6 col-md-3 offset-md-9">
+                                    <button type="submit" class="btn btn-success form-control ">
+                                        <span>Continue</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <p>Please add items to cart</p>
+}
