@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TeaAndCoffe.Migrations
+namespace TeaAndCoffe_DataAcces.Migrations
 {
     /// <inheritdoc />
     public partial class AddIdentityRazorClassLib : Migration

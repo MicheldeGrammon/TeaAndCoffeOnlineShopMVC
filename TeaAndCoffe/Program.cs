@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TeaAndCoffe.data;
+using TeaAndCoffe_DataAccess;
+using TeaAndCoffe_DataAccess.Repository;
+using TeaAndCoffe_DataAccess.Repository.IRepository;
 
 namespace TeaAndCoffe
 {
@@ -32,6 +34,7 @@ namespace TeaAndCoffe
                             .AddDefaultUI()
                             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             //**************************************************
 
             var app = builder.Build();

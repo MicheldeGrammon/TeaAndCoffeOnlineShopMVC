@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TeaAndCoffe_Models;
 
-namespace TeaAndCoffe.data
+namespace TeaAndCoffe_DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext
     {

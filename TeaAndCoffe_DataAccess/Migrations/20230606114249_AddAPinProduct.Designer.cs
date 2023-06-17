@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TeaAndCoffe.data;
+using TeaAndCoffe_DataAccess;
 
 #nullable disable
 
-namespace TeaAndCoffe.Migrations
+namespace TeaAndCoffe_DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230606130501_AddShortDescToProduct")]
-    partial class AddShortDescToProduct
+    [Migration("20230606114249_AddAPinProduct")]
+    partial class AddAPinProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,10 +88,6 @@ namespace TeaAndCoffe.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -7,7 +7,7 @@
             <h2 class="text-success">Application Type List</h2>
         </div>
         <div class="col-6 text-xl-end">
-            <a asp-controller="ApplicationType" asp-action="Create" class="btn btn-primary">
+            <a asp-controller="ApplicationType" asp-action="Create" class="btn btn-primary fa-pull-right">
                 <i class="fa-solid fa-plus"></i> &nbsp; Create New Application Type
             </a>
         </div>
@@ -17,7 +17,7 @@
 
     @if (Model.Count() > 0)
     {
-        <table class="table table-bordered table-striped" style="width:100%; border:1px solid #222">
+        <table class="table table-bordered table-striped  bg-white" style="width:100%; border:2px solid #000">
             <thead>
                 <tr>
                     <th>

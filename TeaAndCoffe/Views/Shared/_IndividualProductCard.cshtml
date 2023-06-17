@@ -4,10 +4,10 @@
 <div class="col-lg-4 col-md-6 pb-4 filter @Model.Category.Name.Replace(' ','_')">
     <!-- Card-->
     <div class="card bg-white rounded shadow-sm" style="border:1px solid #222">
-        <div class="card-footer" style="border-radius: 0px; background-color:#222">
+        <div class="card-footer bg-dark" style="border-radius: 0px">
             <div class="row">
                 <div class="col-7">
-                    <h5 class="float-left; text-white">@Model.Name</h5>
+                    <h5 class="float-left text-white">@Model.Name</h5>
                 </div>
                 <div class="col">
                     <h5 class="text-warning text-end">@(Model.Price.ToString("c"))</h5>
@@ -29,7 +29,7 @@
                 <p> @Model.ShortDescription</p>
             </div>
             <div class="col-12 p-1">
-                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-dark form-control btn-sm p-2 h3" style="height:40px;font-size:revert; background-color:#122E0B">
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success form-control btn-sm p-2 h3" style="height:40px;font-size:revert;">
                     <h6>
                         View Details
                     </h6>

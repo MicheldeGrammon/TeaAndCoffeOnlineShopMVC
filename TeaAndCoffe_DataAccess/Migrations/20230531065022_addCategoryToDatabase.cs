@@ -2,25 +2,26 @@
 
 #nullable disable
 
-namespace TeaAndCoffe.Migrations
+namespace TeaAndCoffe_DataAcces.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAppType : Migration
+    public partial class addCategoryToDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ApplicationType",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationType", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
         }
 
@@ -28,7 +29,7 @@ namespace TeaAndCoffe.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ApplicationType");
+                name: "Category");
         }
     }
 }

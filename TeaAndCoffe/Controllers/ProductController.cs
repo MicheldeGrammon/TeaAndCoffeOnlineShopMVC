@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TeaAndCoffe.data;
+using TeaAndCoffe_DataAccess;
 using TeaAndCoffe_Models;
 using TeaAndCoffe_Models.ViewModels;
 using TeaAndCoffe_Utility;
