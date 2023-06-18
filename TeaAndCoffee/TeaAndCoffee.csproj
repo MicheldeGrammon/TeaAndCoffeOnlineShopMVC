@@ -19,10 +19,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\product\" />
+    <Folder Include="wwwroot\templates\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TeaAndCoffee_DataAccess\TeaAndCoffe_DataAccess.csproj" />
+    <ProjectReference Include="..\TeaAndCoffee_DataAccess\TeaAndCoffee_DataAccess.csproj" />
     <ProjectReference Include="..\TeaAndCoffee_Models\TeaAndCoffee_Models.csproj" />
     <ProjectReference Include="..\TeaAndCoffee_Utility\TeaAndCoffee_Utility.csproj" />
   </ItemGroup>

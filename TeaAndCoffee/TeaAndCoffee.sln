@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeaAndCoffee", "TeaAndCoffee.csproj", "{7B7DF994-B711-4981-849C-860FF16BD418}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeaAndCoffe_DataAccess", "..\TeaAndCoffee_DataAccess\TeaAndCoffe_DataAccess.csproj", "{AF67EC87-9302-490E-A62B-715FBAE9A5BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeaAndCoffee_DataAccess", "..\TeaAndCoffee_DataAccess\TeaAndCoffee_DataAccess.csproj", "{AF67EC87-9302-490E-A62B-715FBAE9A5BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeaAndCoffee_Models", "..\TeaAndCoffee_Models\TeaAndCoffee_Models.csproj", "{4E6A659D-67E2-48E6-B704-D9F9D2C99800}"
 EndProject

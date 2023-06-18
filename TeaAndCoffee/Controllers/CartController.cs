@@ -6,19 +6,38 @@ using TeaAndCoffee_Utility;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using TeaAndCoffee_Models.ViewModels;
+using TeaAndCoffee_DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System.Text;
 
 namespace TeaAndCoffee.Controllers
 {
     [Authorize]
     public class CartController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IApplicationUserRepository _userRepo;
+        private readonly IProductRepository _prodRepo;
+        private readonly IInquiryHeaderRepository _inqHRepo;
+        private readonly IInquiryDetailsRepository _inqDRepo;
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
 
-        public CartController(ApplicationDbContext db)
+        public CartController(IApplicationUserRepository userRepo,
+                              IProductRepository prodRepo,
+                              IInquiryHeaderRepository inqHRepo,
+                              IInquiryDetailsRepository inqDRepo,
+                              IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _userRepo = userRepo;
+            _prodRepo = prodRepo;
+            _inqHRepo = inqHRepo;
+            _inqDRepo = inqDRepo;
+            _webHostEnvironment = webHostEnvironment;
+
         }
 
         public IActionResult Index()
@@ -32,7 +51,7 @@ namespace TeaAndCoffee.Controllers
             }
 
             List<int> prodInCart = shoppingCartsList.Select(x => x.ProductId).ToList();
-            IEnumerable<Product> productList = _db.Product.Where(x => prodInCart.Contains(x.Id));
+            IEnumerable<Product> productList = _prodRepo.GetAll(x => prodInCart.Contains(x.Id));
 
             return View(productList);
         }
@@ -70,8 +89,6 @@ namespace TeaAndCoffee.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            //var userId=User.FindFirstValue(ClaimTypes.Name)
-
             var shoppingCartsList = new List<ShoppingCart>();
 
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
@@ -81,16 +98,85 @@ namespace TeaAndCoffee.Controllers
             }
 
             List<int> prodInCart = shoppingCartsList.Select(x => x.ProductId).ToList();
-            IEnumerable<Product> productList = _db.Product.Where(x => prodInCart.Contains(x.Id));
+            IEnumerable<Product> productList = _prodRepo.GetAll(x => prodInCart.Contains(x.Id));
 
             ProductUserVM = new ProductUserVM()
             {
-                ApplicationUser = _db.ApplicationUser.FirstOrDefault(x => x.Id == claim.Value),
-                ProductList = productList
+                ApplicationUser = _userRepo.FirstOrDefault(x => x.Id == claim.Value),
+                ProductList = productList.ToList()
             };
 
-
             return View(ProductUserVM);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Summary")]
+        public async Task<IActionResult> SummaryPost(ProductUserVM ProductUserVM)
+        {
+            var claimsIdeintity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdeintity.FindFirst(ClaimTypes.NameIdentifier);
+
+            var PathToTemplate = _webHostEnvironment.WebRootPath + Path.DirectorySeparatorChar.ToString()
+                + "templates" + Path.DirectorySeparatorChar.ToString() +
+                "Inquiry.html";
+
+            var subject = "New Inquiry";
+            string HtmlBody = "";
+
+            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+            {
+                HtmlBody = sr.ReadToEnd();
+            }
+            //Name: { 0}
+            //Email: { 1}
+            //Phone: { 2}
+            //Products: {3}
+
+            StringBuilder productListSB = new StringBuilder();
+            foreach (var prod in ProductUserVM.ProductList)
+            {
+                productListSB.Append($" - Name: {prod.Name} <span style='font-size:14px;'> (ID: {prod.Id})</span><br />");
+            }
+
+            string messageBody = string.Format(HtmlBody,
+                                               ProductUserVM.ApplicationUser.FullName,
+                                               ProductUserVM.ApplicationUser.Email,
+                                               ProductUserVM.ApplicationUser.PhoneNumber,
+                                               productListSB.ToString());
+
+            InquiryHeader inquiryHeader = new InquiryHeader()
+            {
+                ApplicationUserId = claim.Value,
+                FullName = ProductUserVM.ApplicationUser.FullName,
+                Email = ProductUserVM.ApplicationUser.Email,
+                PhoneNumber = ProductUserVM.ApplicationUser.PhoneNumber,
+                InquryDate = DateTime.Now
+            };
+
+            _inqHRepo.Add(inquiryHeader);
+            _inqHRepo.Save();
+
+            foreach (var prod in ProductUserVM.ProductList)
+            {
+                InquiryDetails inquiryDetails = new InquiryDetails()
+                {
+                    InquiryHeaderId = inquiryHeader.Id,
+                    ProductId = prod.Id
+                };
+
+                _inqDRepo.Add(inquiryDetails);                
+            }
+            _inqDRepo.Save();
+
+            return RedirectToAction(nameof(InquiryConfirmation));
+        }
+
+        public IActionResult InquiryConfirmation()
+        {
+            HttpContext.Session.Clear();
+            return View();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TeaAndCoffee_DataAccess;
+using TeaAndCoffee_DataAccess.Repository.IRepository;
 using TeaAndCoffee_Models;
 using TeaAndCoffee_Models.ViewModels;
 using TeaAndCoffee_Utility;
@@ -12,21 +13,24 @@ namespace TeaAndCoffee.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _catRepo;
+        private readonly IProductRepository _prodRepo;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ICategoryRepository catRepo, IProductRepository prodRepo)
         {
             _logger = logger;
-            _db = db;
+            _catRepo = catRepo;
+            _prodRepo = prodRepo;     
         }
+
+
 
         public IActionResult Index()
         {
             HomeVM homeVM = new HomeVM()
             {
-                Products = _db.Product.Include(x => x.Category)
-                                      .Include(x => x.ApplicationType),
-                Categories = _db.Category
+                Products = _prodRepo.GetAll(includeProperties: "Category,ApplicationType"),              
+                Categories = _catRepo.GetAll()
             };
             return View(homeVM);
         }
@@ -42,9 +46,7 @@ namespace TeaAndCoffee.Controllers
 
             var detailsVM = new DetailsVM()
             {
-                Product = _db.Product.Include(x => x.Category)
-                                     .Include(x => x.ApplicationType)
-                                     .FirstOrDefault(x => x.Id == id),
+                Product = _prodRepo.FirstOrDefault(x => x.Id == id, includeProperties: "Category,ApplicationType"),
                 ExistsInCart = false
             };
 
