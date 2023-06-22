@@ -31,7 +31,7 @@ namespace TeaAndCoffee.Controllers
             {
                 Products = _prodRepo.GetAll(includeProperties: "Category,ApplicationType"),              
                 Categories = _catRepo.GetAll()
-            };
+            };          
             return View(homeVM);
         }
 

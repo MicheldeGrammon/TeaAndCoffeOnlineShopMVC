@@ -23,6 +23,8 @@ namespace TeaAndCoffee_DataAccess.Repository.IRepository
 
         void Remove(T entity);
 
+        void RemoveRange(IEnumerable<T> entities);
+
         void Save();
     }
 }
