@@ -1,5 +1,5 @@
 ﻿@using TeaAndCoffee_Utility;
-@model IEnumerable<Product>
+@model List<Product>
 
 @if (Model.Count() > 0)
 {
@@ -16,56 +16,97 @@
                                     Shopping Cart
                                 </div>
                                 <div class="col text-end">
-                                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info btn-sm" style="font-size:16px">Continue Shopping</a>
+                                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info btn-sm fa-pull-right" style="font-size:16px">Continue Shopping</a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="d-lg-block">
                                 <div class="row" style="color:#821f3d">
-                                    <div class="col-3">
+                                    <div class="col text-center">
                                         Image
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         Product Details
                                     </div>
-                                    <div class="col text-end">
+                                    <div class="col text-center">
                                         Price per 100 gramm
                                     </div>
-                                    <div class="col text-end">
+                                    <div class="col text-center">
+                                        Weight[grams]
+                                    </div>
+                                    <div class="col text-center">
+                                        Total Price
+                                    </div>
+                                    <div class="col text-center">
                                         Delete
                                     </div>
                                 </div>
                             </div>
 
                             <hr />
-                            @foreach (var item in Model)
+                            @{
+                                var orderTotal = 0.0;
+                            }
+
+                            @for (int i = 0; i < Model.Count(); i++)
                             {
-
+                                <input hidden asp-for="@Model[i].Id" />
                                 <div class="row h-100">
-                                    <div class="col-3">
-                                        <img src="@WC.ImagePath@item.Image" class="rounded" width="100" />
+                                    <div class="col">
+                                        <img src="@WC.ImagePath@Model[i].Image" class="rounded" width="100" />
                                     </div>
-                                    <div class="col-5">
-                                        <h5>@item.Name</h5>
-                                        <div style="font-size:12px;">@item.ShortDescription</div>
-                                    </div>
-                                    <div class="col text-end" style="font-size:12px;">
-                                        <span style="font-size:17px;"> @item.Price.ToString("c")</span>/ 100 gramm
 
+                                    <div class="col-4">
+                                        <h5>@Model[i].Name</h5>
+                                        <div style="font-size:12px;">@Model[i].ShortDescription</div>
                                     </div>
-                                    <div class="col text-end">
-                                        <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                    <div class="col text-center">
+                                        <div style="font-size:17px;">@Model[i].Price</div>
+                                    </div>
+
+                                    @if (User.IsInRole(WC.AdminRole))
+                                    {
+                                        <div class="col text-center" style="font-size:12px;">
+                                            <input type="text" asp-for="@Model[i].TempWeight" class="form-control" />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col text-center" style="font-size:12px;">
+                                            <span style="font-size:17px;"> @Model[i].TempWeight</span>
+                                        </div>
+                                    }
+                                    <div class="col text-center">
+                                        <span style="font-size:17px;"> @((Model[i].Price * Model[i].TempWeight / 100).ToString("c"))</span>
+                                    </div>
+
+                                    <div class="col text-center">
+                                        <a asp-action="Remove" asp-route-id="@Model[i].Id" class="btn btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
                                 </div>
+                                orderTotal += Model[i].Price * Model[i].TempWeight / 100;
+                                <hr />
                             }
-                            <hr />
+
+                            <div class="row">
+                                <div class="col text-right" style="color:darkred">
+                                    <h4>Order total: @orderTotal.ToString("c")</h4>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="row">
-                                <div class="col-6 col-md-3 offset-md-9">
+                                <div class="col-6 col-md-3 offset-md-6">
+                                    @if (User.IsInRole(WC.AdminRole))
+                                    {
+                                        <input type="submit" asp-action="UpdateCart" formmethod="post" name="Update" value="Update Cart"
+                                               class="btn btn-warning form-control" />
+                                    }
+                                </div>
+                                <div class="col-6 col-md-3">
                                     <button type="submit" class="btn btn-success form-control ">
                                         <span>Continue</span>
                                     </button>

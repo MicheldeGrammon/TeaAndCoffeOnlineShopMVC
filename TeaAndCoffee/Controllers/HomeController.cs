@@ -62,7 +62,7 @@ namespace TeaAndCoffee.Controllers
         }
 
         [HttpPost, ActionName("Details")]
-        public IActionResult DetailsPost(int id)
+        public IActionResult DetailsPost(int id, DetailsVM detailsVM)
         {
             var shoppingCartList = new List<ShoppingCart>();
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
@@ -70,7 +70,8 @@ namespace TeaAndCoffee.Controllers
             {
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
-            shoppingCartList.Add(new ShoppingCart { ProductId = id });
+            shoppingCartList.Add(new ShoppingCart { ProductId = id, Weight = detailsVM.Product.TempWeight });
+            TempData[WC.Success] = "Product added to cart successfully";
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
 
             return RedirectToAction(nameof(Index));
@@ -88,7 +89,8 @@ namespace TeaAndCoffee.Controllers
             var itemToRemove = shoppingCartList.SingleOrDefault(x => x.ProductId == id);
 
             if (itemToRemove != null) 
-            { 
+            {
+                TempData[WC.Warning] = "Product removed from cart successfully";
                 shoppingCartList.Remove(itemToRemove);
             }
 

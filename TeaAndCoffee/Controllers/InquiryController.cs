@@ -79,6 +79,7 @@ namespace TeaAndCoffee.Controllers
 
             _inqHRepo.Save();
 
+            TempData[WC.Warning] = "Inquiry removed successfully";
             return RedirectToAction(nameof(Index));
         }
     }

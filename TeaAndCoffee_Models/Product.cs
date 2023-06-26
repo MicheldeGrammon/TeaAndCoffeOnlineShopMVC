@@ -5,6 +5,11 @@ namespace TeaAndCoffee_Models
 {
     public class Product
     {
+        public Product()
+        {
+            TempWeight = 100;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -29,5 +34,9 @@ namespace TeaAndCoffee_Models
         public int ApplicationTypeId { get; set; }
         [ForeignKey("ApplicationTypeId")]
         public virtual ApplicationType? ApplicationType { get; set; }
+
+        [NotMapped]
+        [Range(100, 1000, ErrorMessage = "Weight min: 100 gramm, max: 1000 gramm.")]
+        public int TempWeight { get; set; }
     }
 }

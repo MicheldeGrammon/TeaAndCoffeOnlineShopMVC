@@ -74,7 +74,6 @@ namespace TeaAndCoffee.Controllers
                 TempData[WC.Success] = "Category edit successfully";
                 return RedirectToAction("Index");              
             }
-
             TempData[WC.Error] = "Error while deleting category";
 
             return View(obj);

@@ -1,4 +1,6 @@
-﻿namespace TeaAndCoffee_Utility
+﻿using System.Collections.ObjectModel;
+
+namespace TeaAndCoffee_Utility
 {
     public static class WC
     {
@@ -20,5 +22,19 @@
         public const string Success = "Success";
         public const string Error = "Error";
         public const string Warning = "Warning";
+
+        public const string StatusInProcces = "InProcces";
+        public const string StatusShipped = "Shipped";
+        public const string StatusCancelled = "Cancelled";
+        public const string StatusСompleted = "Сompleted";
+
+        public static readonly IEnumerable<string> listStatus = new ReadOnlyCollection<string>
+            (new List<string>
+            {
+                StatusInProcces,
+                StatusShipped,
+                StatusCancelled,
+                StatusСompleted
+            });
     }
 }

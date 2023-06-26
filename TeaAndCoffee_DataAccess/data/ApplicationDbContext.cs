@@ -6,9 +6,9 @@ namespace TeaAndCoffee_DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base (options) 
-        { 
-            
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
         }
 
         public DbSet<Category> Category { get; set; }
@@ -18,5 +18,8 @@ namespace TeaAndCoffee_DataAccess
 
         public DbSet<InquiryHeader> InquiryHeader { get; set; }
         public DbSet<InquiryDetails> InquiryDetails { get; set; }
+
+        public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<OrderHeader> OrderHeader { get; set; }
     }
 }

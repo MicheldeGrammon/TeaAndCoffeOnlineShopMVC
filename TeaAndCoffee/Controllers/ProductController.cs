@@ -79,6 +79,8 @@ namespace TeaAndCoffee.Controllers
                     productVM.Product.Image = fileName + extension;
 
                     _prodRepo.Add(productVM.Product);
+
+                    TempData[WC.Success] = "Product created successfully";
                 }
                 else
                 {
@@ -111,6 +113,8 @@ namespace TeaAndCoffee.Controllers
                     }
 
                     _prodRepo.Update(productVM.Product);
+
+                    TempData[WC.Success] = "Product updated successfully";
                 }
 
                 _prodRepo.Save();
@@ -148,6 +152,7 @@ namespace TeaAndCoffee.Controllers
             var objFromDb = _prodRepo.Find(id.GetValueOrDefault());
             if (objFromDb == null)
             {
+                TempData[WC.Error] = "Error";
                 return NotFound();
             }
 
@@ -162,6 +167,7 @@ namespace TeaAndCoffee.Controllers
 
             _prodRepo.Remove(objFromDb);
             _prodRepo.Save();
+            TempData[WC.Warning] = "Product deleted successfully";
             return RedirectToAction("Index");
         }
     }
