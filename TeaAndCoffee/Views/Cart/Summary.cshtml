@@ -89,7 +89,7 @@
                                             orderTotal += Model.ProductList[i].Price * Model.ProductList[i].TempWeight / 100;
                                         }
                                         <li class="list-group-item d-flex justify-content-between bg-light">
-                                            <small class="text" style="color:darkred">Total</small>
+                                            <strong class="text" style="color:darkred">Total</strong>
                                             <strong calss="text" style="color:darkred">@orderTotal.ToString("c")</strong>
                                         </li>
                                     </ul>
@@ -101,14 +101,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12 col-md-5 offset-md-7">
-                            @if (User.IsInRole(TeaAndCoffee_Utility.WC.AdminRole))
-                            {
                                 <button class="btn btn-success form-control" id="submit-button">Submit Order</button>
-                            }
-                            else
-                            {
-                                <button type="submit" class="btn btn-primary form-control">Submit Inquiry</button>
-                            }
                         </div>
                     </div>
                 </div>

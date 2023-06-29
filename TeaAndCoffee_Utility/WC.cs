@@ -8,8 +8,6 @@ namespace TeaAndCoffee_Utility
 
         public const string SessionCart = "ShoppingCartSession";
 
-        public const string SessionInquiryId = "InquirySession";
-
         public const string AdminRole = "Admin";
 
         public const string CustomerRole = "Customer";
@@ -23,7 +21,8 @@ namespace TeaAndCoffee_Utility
         public const string Error = "Error";
         public const string Warning = "Warning";
 
-        public const string StatusInProcces = "InProcces";
+        public const string StatusPending = "Pending";
+        public const string StatusInProcces = "In Procces";
         public const string StatusShipped = "Shipped";
         public const string StatusCancelled = "Cancelled";
         public const string StatusСompleted = "Сompleted";
@@ -31,6 +30,7 @@ namespace TeaAndCoffee_Utility
         public static readonly IEnumerable<string> listStatus = new ReadOnlyCollection<string>
             (new List<string>
             {
+                StatusPending,
                 StatusInProcces,
                 StatusShipped,
                 StatusCancelled,

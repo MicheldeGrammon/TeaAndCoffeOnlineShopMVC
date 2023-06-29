@@ -10,16 +10,16 @@
                     <i class="fas fa-shopping-cart"></i> &nbsp; Order Summary
                 </div>
                 <div class="col-12 col-md-4 offset-md-2 text-right">
-                    <a asp-action="Index" class="btn btn-outline-info form-control btn-sm">Back to Order List</a>
+                    <a asp-action="Index" class="btn btn-outline-info form-control btn-sm">Back to Inquiry</a>
                 </div>
             </div>
             <div class="card-body pb-0">
                 <div class="container rounded p-2">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-12 col-lg-6 pb-4">
                             <div class="row">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-info">Order Header:</span>
+                                    <span class="text-info">Order Details:</span>
                                 </h4>
                             </div>
                             <div class="row my-1">
@@ -46,7 +46,7 @@
                             <div class="row my-1">
                                 <div class="col-3">Email</div>
                                 <div class="col-9">
-                                    <input asp-for="OrderHeader.Email" type="text" class="form-control" />
+                                    <input asp-for="OrderHeader.Email" type="text" class="form-control"/>
                                     <span asp-validation-for="OrderHeader.Email" class="text-danger"></span>
                                 </div>
                             </div>
@@ -59,12 +59,12 @@
                                     </select>
                                     <span asp-validation-for="OrderHeader.OrderStatus" class="text-danger"></span>
                                 </div>
-                            </div>
+                            </div>                           
 
                             <div class="row my-1">
                                 <div class="col-3">Address</div>
                                 <div class="col-9">
-                                    <input asp-for="OrderHeader.Address" type="text" class="form-control" />
+                                    <input asp-for="OrderHeader.Address" type="text" class="form-control"/>
                                     <span asp-validation-for="OrderHeader.Address" class="text-danger"></span>
                                 </div>
                             </div>
@@ -75,59 +75,36 @@
                                     <input value="@Model.OrderHeader.OrderDate.ToShortDateString()" disabled type="text" class="" />
                                 </div>
                             </div>
-                            <div class="row my-1" style="color:darkred">
-                                <div class="col-3">
-                                    <h5>Total Order</h5>
-                                </div>
+
+                            <div class="row my-1">
+                                <div class="col-3">Inquiry Date</div>
                                 <div class="col-9">
-                                    <h5>@Model.OrderHeader.FinalOrderTotal.ToString("c")</h5>
+                                    <input value="@Model.OrderHeader.FinalOrderTotal.ToString("с")" disabled type="text" class="" />
                                 </div>
                             </div>
 
-                            <hr />
-                            <div class="row">
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-success">Order Details:</span>
-                                </h4>
+
+
+                           @* <div class="row my-1">
+                                <div class="col-3">CreatedBy</div>
+                                <div class="col-9">
+                                    <input value="@Model.OrderHeader.CreatedBy" type="text" disabled class="form-control"/>
+                                </div>
                             </div>
 
-                            @for (int i = 0; i < Model.OrderDetails.Count(); i++)
-                            {
-                                <li class="list-group-item d-flex justify-content-between p-2">
-                                    <div class="row my-1">
+                            <div class="row my-1">
+                                <div class="col-3">CreatedById</div>
+                                <div class="col-9">
+                                    <input value="@Model.OrderHeader.CreatedByUserId" type="text" disabled class="form-control" />
+                                </div>
+                            </div>*@
 
 
-                                        <div class="col-9">
-                                            <h5 class="my-0 text-success"> @Model.OrderDetails[i].Product.Name </h5>
-                                        </div>
-                                        <div class="row my-1">
-                                            <div class="col-3">Price</div>
-                                            <div class="col-9">
-                                                <input value="@Model.OrderDetails[i].Price.ToString("c")" type="text" disabled class="form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="row my-1">
-                                            <div class="col-3">Weight</div>
-                                            <div class="col-9">
-                                                <input asp-for="@Model.OrderDetails[i].Weight" type="text" class="form-control" />
-                                                <span asp-validation-for="@Model.OrderDetails[i].Weight" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="row my-1" style="color:darkred">
-                                            <div class="col-3"> <h5>Total: </h5></div>
-                                            <div class="col-9">
-                                                <h5>@((@Model.OrderDetails[i].Weight * @Model.OrderDetails[i].Price / 100).ToString("c"))</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </li>
-                            }
                             <div class="row my-1 pt-2">
                                 <div class="col-9 offset-3">
                                     <div class="row">
                                         <div class="col">
-                                            <input asp-action="UpdateHeader" type="submit" value="Update" class="btn btn-warning form-control" />
+                                            <input asp-action="UpdateStatus" type="submit" value="Update Status" class="btn btn-warning form-control" />
                                         </div>
 
                                         <div class="col">
@@ -136,6 +113,28 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-info">Order Summary</span>
+                            </h4>
+                            <ul class="list-group mb-3">
+                                @foreach (var item in Model.OrderDetails)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
+
+                                                <h6 class="my-0 text-info">@item.Product.Name</h6>
+                                                <small class="text-muted">Price : @item.Product.Price.ToString("c")</small><br />
+                                            </div>
+                                            <div class="col-4">
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            <br />
                         </div>
                     </div>
                 </div>
