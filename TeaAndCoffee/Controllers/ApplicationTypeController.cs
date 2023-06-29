@@ -16,7 +16,7 @@ namespace TeaAndCoffee.Controllers
 
         public ApplicationTypeController(IApplicationTypeRepository appTypeRepo)
         {
-            _appTypeRepo=appTypeRepo;
+            _appTypeRepo = appTypeRepo;
         }
         public IActionResult Index()
         {
@@ -37,9 +37,10 @@ namespace TeaAndCoffee.Controllers
             {
                 _appTypeRepo.Add(obj);
                 _appTypeRepo.Save();
+                TempData[WC.Success] = "Application Type created successfully";
                 return RedirectToAction("Index");
             }
-
+            TempData[WC.Error] = "Error";
             return View(obj);
         }
 
@@ -54,7 +55,6 @@ namespace TeaAndCoffee.Controllers
             {
                 return NotFound();
             }
-
             return View(obj);
         }
 
@@ -66,9 +66,10 @@ namespace TeaAndCoffee.Controllers
             {
                 _appTypeRepo.Update(obj);
                 _appTypeRepo.Save();
+                TempData[WC.Success] = "Application Type update successfully";
                 return RedirectToAction("Index");
             }
-
+            TempData[WC.Error] = "Error";
             return View(obj);
         }
 
@@ -84,9 +85,6 @@ namespace TeaAndCoffee.Controllers
             {
                 return NotFound();
             }
-
-
-
             return View(obj);
         }
 
@@ -95,13 +93,17 @@ namespace TeaAndCoffee.Controllers
         public IActionResult DeletePost(int? id)
         {
             var obj = _appTypeRepo.Find(id.GetValueOrDefault());
-            if (obj==null)
+            if (obj == null)
             {
+                TempData[WC.Error] = "Error";
                 return NotFound();
             }
             _appTypeRepo.Remove(obj);
             _appTypeRepo.Save();
-                return RedirectToAction("Index");
+
+            TempData[WC.Warning] = "Application Type deleted successfully";
+
+            return RedirectToAction("Index");
         }
     }
 }

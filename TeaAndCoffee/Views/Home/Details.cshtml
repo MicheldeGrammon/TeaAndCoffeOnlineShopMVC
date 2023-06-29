@@ -3,11 +3,12 @@
 
 
 <div class="">
-    <form method="post">
+    <form method="post" asp-action="Details">
         <input asp-for="@Model.Product.Id" hidden />
         <div class="container backgroundWhite pt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="card" style="border:1px solid #000000; ">
-                <div class="card-footer bg-dark" style="border-radius: 0px;">
+                <div class="card-header bg-dark" style="border-radius: 0px;">
                     <div class="row">
                         <div class="col-7">
                             <h1 class="text-white">@Model.Product.Name</h1>
@@ -25,17 +26,34 @@
                             </div>
                             <div class="col-12 col-lg-8">
                                 <div class="row pl-3">
-
                                     <div class="col-12">
                                         <span class="badge p-2 border" style="background-color:wheat; color:black;font-size:revert">#@Model.Product.Category.Name</span>
                                         <span class="badge p-2 border" style="background-color:antiquewhite;color:black; font-size:revert">@Model.Product.ApplicationType.Name</span>
                                         <h3 class="text-success"></h3>
 
                                         <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
-                                    </div>
-
+                                    </div>                                   
                                 </div>
                             </div>
+
+                            <div class="row d-flex justify-content-end">
+                                <div class="col-3">
+                                    <h4>Weight [grams]:</h4>                          
+                                </div>
+                                <div class="col-4">
+                                    @if (Model.ExistsInCart)
+                                    {
+
+                                        <input asp-for="@Model.Product.TempWeight" disabled class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="@Model.Product.TempWeight" class="form-control" />
+                                    }
+                                    <span asp-validation-for="@Model.Product.TempWeight" class="text-danger"></span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -52,6 +70,7 @@
                             else
                             {
                                 <button type="submit" asp-route-id="@Model.Product.Id" class="btn btn-success form-control btn-lg" style="height:50px;">Add to Cart</button>
+
                             }
                         </div>
                     </div>
@@ -60,3 +79,7 @@
         </div>
     </form>
 </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TeaAndCoffee_DataAccess;
+using TeaAndCoffee_DataAccess.Repository.IRepository;
 using TeaAndCoffee_Models;
 using TeaAndCoffee_Models.ViewModels;
 using TeaAndCoffee_Utility;
@@ -12,22 +13,25 @@ namespace TeaAndCoffee.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _catRepo;
+        private readonly IProductRepository _prodRepo;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ICategoryRepository catRepo, IProductRepository prodRepo)
         {
             _logger = logger;
-            _db = db;
+            _catRepo = catRepo;
+            _prodRepo = prodRepo;     
         }
+
+
 
         public IActionResult Index()
         {
             HomeVM homeVM = new HomeVM()
             {
-                Products = _db.Product.Include(x => x.Category)
-                                      .Include(x => x.ApplicationType),
-                Categories = _db.Category
-            };
+                Products = _prodRepo.GetAll(includeProperties: "Category,ApplicationType"),              
+                Categories = _catRepo.GetAll()
+            };          
             return View(homeVM);
         }
 
@@ -42,9 +46,7 @@ namespace TeaAndCoffee.Controllers
 
             var detailsVM = new DetailsVM()
             {
-                Product = _db.Product.Include(x => x.Category)
-                                     .Include(x => x.ApplicationType)
-                                     .FirstOrDefault(x => x.Id == id),
+                Product = _prodRepo.FirstOrDefault(x => x.Id == id, includeProperties: "Category,ApplicationType"),
                 ExistsInCart = false
             };
 
@@ -60,7 +62,7 @@ namespace TeaAndCoffee.Controllers
         }
 
         [HttpPost, ActionName("Details")]
-        public IActionResult DetailsPost(int id)
+        public IActionResult DetailsPost(int id, DetailsVM detailsVM)
         {
             var shoppingCartList = new List<ShoppingCart>();
             if (HttpContext.Session.Get<IEnumerable<ShoppingCart>>(WC.SessionCart) != null
@@ -68,7 +70,8 @@ namespace TeaAndCoffee.Controllers
             {
                 shoppingCartList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
-            shoppingCartList.Add(new ShoppingCart { ProductId = id });
+            shoppingCartList.Add(new ShoppingCart { ProductId = id, Weight = detailsVM.Product.TempWeight });
+            TempData[WC.Success] = "Product added to cart successfully";
             HttpContext.Session.Set(WC.SessionCart, shoppingCartList);
 
             return RedirectToAction(nameof(Index));
@@ -86,7 +89,8 @@ namespace TeaAndCoffee.Controllers
             var itemToRemove = shoppingCartList.SingleOrDefault(x => x.ProductId == id);
 
             if (itemToRemove != null) 
-            { 
+            {
+                TempData[WC.Warning] = "Product removed from cart successfully";
                 shoppingCartList.Remove(itemToRemove);
             }
 

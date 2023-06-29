@@ -37,6 +37,13 @@ namespace TeaAndCoffee
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IApplicationTypeRepository, ApplicationTypeRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            //builder.Services.AddScoped<IInquiryHeaderRepository, InquiryHeaderRepository>();
+            //builder.Services.AddScoped<IInquiryDetailsRepository, InquiryDetailsRepository>();
+            builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+            builder.Services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+            builder.Services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             //**************************************************
 
             var app = builder.Build();
