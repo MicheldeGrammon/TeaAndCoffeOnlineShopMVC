@@ -28,19 +28,17 @@ namespace TeaAndCoffee.Controllers
             return View(objList);
         }
 
-        //Get - Upsert
         public IActionResult Upsert(int? id)
         {
             ProductVM productVM = new ProductVM()
             {
                 Product = new Product(),
                 CategorySelectList = _prodRepo.GetAllDropdown(WC.CategoryName),
-                ApplicationTypeSelectList = _prodRepo.GetAllDropdown(WC.ApplicationTypeName)              
+                ApplicationTypeSelectList = _prodRepo.GetAllDropdown(WC.ApplicationTypeName)
             };
 
             if (id == null)
             {
-                //this is for create
                 return View(productVM);
             }
             else
@@ -54,7 +52,6 @@ namespace TeaAndCoffee.Controllers
             }
         }
 
-        //Post - Upsert
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM)
@@ -66,7 +63,6 @@ namespace TeaAndCoffee.Controllers
 
                 if (productVM.Product.Id == 0)
                 {
-                    //creating
                     string upload = webRootPath + WC.ImagePath;
                     string fileName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(files[0].FileName);
@@ -84,7 +80,6 @@ namespace TeaAndCoffee.Controllers
                 }
                 else
                 {
-                    //updating
                     var objFromDb = _prodRepo.FirstOrDefault(x => x.Id == productVM.Product.Id, isTracking: false);
 
                     if (files.Count > 0)
@@ -121,13 +116,12 @@ namespace TeaAndCoffee.Controllers
                 return RedirectToAction("Index");
             }
 
-            productVM.CategorySelectList = _prodRepo.GetAllDropdown(WC.CategoryName);          
+            productVM.CategorySelectList = _prodRepo.GetAllDropdown(WC.CategoryName);
             productVM.ApplicationTypeSelectList = _prodRepo.GetAllDropdown(WC.ApplicationTypeName);
 
             return View(productVM);
         }
 
-        //Get-Delete
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -135,7 +129,7 @@ namespace TeaAndCoffee.Controllers
                 return NotFound();
             }
 
-            Product product = _prodRepo.FirstOrDefault(x=>x.Id==id, includeProperties:"Category,ApplicationType");
+            Product product = _prodRepo.FirstOrDefault(x => x.Id == id, includeProperties: "Category,ApplicationType");
             if (product == null)
             {
                 return NotFound();
@@ -144,7 +138,6 @@ namespace TeaAndCoffee.Controllers
             return View(product);
         }
 
-        //Post - Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)

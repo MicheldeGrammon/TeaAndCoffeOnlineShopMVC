@@ -20,18 +20,16 @@ namespace TeaAndCoffee.Controllers
         {
             _logger = logger;
             _catRepo = catRepo;
-            _prodRepo = prodRepo;     
+            _prodRepo = prodRepo;
         }
-
-
 
         public IActionResult Index()
         {
             HomeVM homeVM = new HomeVM()
             {
-                Products = _prodRepo.GetAll(includeProperties: "Category,ApplicationType"),              
+                Products = _prodRepo.GetAll(includeProperties: "Category,ApplicationType"),
                 Categories = _catRepo.GetAll()
-            };          
+            };
             return View(homeVM);
         }
 
@@ -88,7 +86,7 @@ namespace TeaAndCoffee.Controllers
 
             var itemToRemove = shoppingCartList.SingleOrDefault(x => x.ProductId == id);
 
-            if (itemToRemove != null) 
+            if (itemToRemove != null)
             {
                 TempData[WC.Warning] = "Product removed from cart successfully";
                 shoppingCartList.Remove(itemToRemove);

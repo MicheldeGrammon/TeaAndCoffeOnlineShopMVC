@@ -14,6 +14,5 @@ namespace TeaAndCoffee_Models.ViewModels
         public IList<OrderDetail> OrderDetails { get; set; }
 
         public IEnumerable<SelectListItem>? StatusList { get; set; }
-
     }
 }

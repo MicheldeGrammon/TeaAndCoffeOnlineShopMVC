@@ -18,9 +18,6 @@ namespace TeaAndCoffee.Controllers
     {
         private readonly IApplicationUserRepository _userRepo;
         private readonly IProductRepository _prodRepo;
-        //private readonly IInquiryHeaderRepository _inqHRepo;
-        //private readonly IInquiryDetailsRepository _inqDRepo;
-
         private readonly IOrderHeaderRepository _orderHRepo;
         private readonly IOrderDetailRepository _orderDRepo;
 
@@ -31,16 +28,12 @@ namespace TeaAndCoffee.Controllers
 
         public CartController(IApplicationUserRepository userRepo,
                               IProductRepository prodRepo,
-                              //IInquiryHeaderRepository inqHRepo,
-                              //IInquiryDetailsRepository inqDRepo,
                               IWebHostEnvironment webHostEnvironment,
                               IOrderHeaderRepository orderHRepo,
                               IOrderDetailRepository orderDRepo)
         {
             _userRepo = userRepo;
             _prodRepo = prodRepo;
-            //_inqHRepo = inqHRepo;
-            //_inqDRepo = inqDRepo;
             _webHostEnvironment = webHostEnvironment;
             _orderHRepo = orderHRepo;
             _orderDRepo = orderDRepo;
@@ -67,7 +60,6 @@ namespace TeaAndCoffee.Controllers
                 productList.Add(prodTemp);
             }
 
-
             return View(productList);
         }
 
@@ -80,7 +72,6 @@ namespace TeaAndCoffee.Controllers
             {
                 shoppingCartsList = HttpContext.Session.Get<List<ShoppingCart>>(WC.SessionCart);
             }
-
 
             shoppingCartsList.Remove(shoppingCartsList.FirstOrDefault(x => x.ProductId == id));
 
@@ -102,7 +93,7 @@ namespace TeaAndCoffee.Controllers
 
             if (User.IsInRole(WC.AdminRole))
             {
-                    applicationUser = new ApplicationUser();
+                applicationUser = new ApplicationUser();
             }
             else
             {
@@ -110,7 +101,6 @@ namespace TeaAndCoffee.Controllers
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 applicationUser = _userRepo.FirstOrDefault(x => x.Id == claim.Value);
             }
-
 
             var shoppingCartsList = new List<ShoppingCart>();
 
@@ -138,13 +128,11 @@ namespace TeaAndCoffee.Controllers
             return View(ProductUserVM);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Summary")]
         public async Task<IActionResult> SummaryPost(ProductUserVM ProductUserVM)
         {
-
             var claimsIdeintity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdeintity.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -185,57 +173,6 @@ namespace TeaAndCoffee.Controllers
 
             return RedirectToAction(nameof(InquiryConfirmation), new { id = orderHeader.Id });
         }
-
-        //var PathToTemplate = _webHostEnvironment.WebRootPath + Path.DirectorySeparatorChar.ToString()
-        //    + "templates" + Path.DirectorySeparatorChar.ToString() +
-        //    "Inquiry.html";
-
-        //var subject = "New Inquiry";
-        //string HtmlBody = "";
-
-        //using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-        //{
-        //    HtmlBody = sr.ReadToEnd();
-        //}
-
-        //StringBuilder productListSB = new StringBuilder();
-        //foreach (var prod in ProductUserVM.ProductList)
-        //{
-        //    productListSB.Append($" - Name: {prod.Name} <span style='font-size:14px;'> (ID: {prod.Id})</span><br />");
-        //}
-
-        //string messageBody = string.Format(HtmlBody,
-        //                                   ProductUserVM.ApplicationUser.FullName,
-        //                                   ProductUserVM.ApplicationUser.Email,
-        //                                   ProductUserVM.ApplicationUser.PhoneNumber,
-        //                                   productListSB.ToString());
-
-        //InquiryHeader inquiryHeader = new InquiryHeader()
-        //{
-        //    ApplicationUserId = claim.Value,
-        //    FullName = ProductUserVM.ApplicationUser.FullName,
-        //    Email = ProductUserVM.ApplicationUser.Email,
-        //    PhoneNumber = ProductUserVM.ApplicationUser.PhoneNumber,
-        //    InquryDate = DateTime.Now
-        //};
-
-        //_inqHRepo.Add(inquiryHeader);
-        //_inqHRepo.Save();
-
-        //foreach (var prod in ProductUserVM.ProductList)
-        //{
-        //    InquiryDetails inquiryDetails = new InquiryDetails()
-        //    {
-        //        InquiryHeaderId = inquiryHeader.Id,
-        //        ProductId = prod.Id
-        //    };
-
-        //    _inqDRepo.Add(inquiryDetails);
-        //}
-        //_inqDRepo.Save();
-
-        //return RedirectToAction(nameof(InquiryConfirmation));          
-
 
         public IActionResult InquiryConfirmation(int id = 0)
         {

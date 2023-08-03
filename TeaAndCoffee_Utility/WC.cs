@@ -16,7 +16,6 @@ namespace TeaAndCoffee_Utility
 
         public const string ApplicationTypeName = "ApplicationType";
 
-
         public const string Success = "Success";
         public const string Error = "Error";
         public const string Warning = "Warning";

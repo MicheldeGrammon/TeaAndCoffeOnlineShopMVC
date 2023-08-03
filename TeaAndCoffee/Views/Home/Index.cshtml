@@ -10,19 +10,17 @@
             </button>
         }
     </div>
-    <br/>
+    <br />
     <div class="row">
         @foreach (var prod in Model.Products)
         {
             <partial name="_IndividualProductCard" model="prod" />
-            //display all product
-
         }
     </div>
 </div>
 
 @section Scripts
-{
+    {
     <script>
         $(document).ready(function () {
 

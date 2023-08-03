@@ -56,15 +56,15 @@ namespace TeaAndCoffee.Controllers
             if (WC.listStatus.Contains(orderVM.OrderHeader.OrderStatus))
             {
                 var headerFromDB = _orderHRepo.FirstOrDefault(x => x.Id == orderVM.OrderHeader.Id);
-                var detailsFromDB = (IList<OrderDetail>)_orderDRepo.GetAll(x=>x.OrderHeaderId==orderVM.OrderHeader.Id);
+                var detailsFromDB = (IList<OrderDetail>)_orderDRepo.GetAll(x => x.OrderHeaderId == orderVM.OrderHeader.Id);
 
-                if (headerFromDB != null && detailsFromDB != null) 
+                if (headerFromDB != null && detailsFromDB != null)
                 {
                     double totalOrder = 0.0;
                     for (int i = 0; i < detailsFromDB.Count(); i++)
                     {
                         detailsFromDB[i].Weight = orderVM.OrderDetails[i].Weight;
-                        totalOrder += detailsFromDB[i].Weight * detailsFromDB[i].Price/100;
+                        totalOrder += detailsFromDB[i].Weight * detailsFromDB[i].Price / 100;
                     }
 
                     headerFromDB.FullName = orderVM.OrderHeader.FullName;
@@ -74,8 +74,6 @@ namespace TeaAndCoffee.Controllers
                     headerFromDB.Address = orderVM.OrderHeader.Address;
 
                     headerFromDB.FinalOrderTotal = totalOrder;
-
-                    
 
                     _orderHRepo.Update(headerFromDB);
                     _orderHRepo.Save();
@@ -93,15 +91,12 @@ namespace TeaAndCoffee.Controllers
             return RedirectToAction(nameof(Details));
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteOrder(OrderVM orderVM)
         {
             int id = orderVM.OrderHeader.Id;
-
-            var headerFromDB = _orderHRepo.FirstOrDefault(x=>x.Id==id);
+            var headerFromDB = _orderHRepo.FirstOrDefault(x => x.Id == id);
 
             if (headerFromDB == null)
             {

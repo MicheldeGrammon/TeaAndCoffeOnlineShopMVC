@@ -19,7 +19,7 @@ namespace TeaAndCoffee_DataAccess.Repository.IRepository
                          string includeProperties = null,
                          bool isTracking = true);
 
-        void Add (T entity);
+        void Add(T entity);
 
         void Remove(T entity);
 

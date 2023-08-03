@@ -14,7 +14,7 @@ namespace TeaAndCoffee_DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
 
-        public OrderDetailRepository(ApplicationDbContext db):base(db)
+        public OrderDetailRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }

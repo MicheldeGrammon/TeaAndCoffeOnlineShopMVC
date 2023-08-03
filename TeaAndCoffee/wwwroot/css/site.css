@@ -1,6 +1,7 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -64,7 +65,7 @@ body {
     /* Margin bottom by footer height */
 
     margin-bottom: 60px;
-    background: url('/images/dust_scratches.png');
+    background: url('/images/dust_scratches.png');   
 }
 
 .footer {
@@ -242,4 +243,10 @@ table{
 .form-signup .social-login {
     width: 210px !important;
     margin: 0 auto;
+}
+
+
+a.text {
+    text-decoration: none;
+    color: #666;
 }

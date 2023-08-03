@@ -14,14 +14,14 @@ namespace TeaAndCoffee_DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
 
-        public ProductRepository(ApplicationDbContext db):base(db)
+        public ProductRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
 
         public IEnumerable<SelectListItem> GetAllDropdown(string obj)
         {
-            if (obj==WC.CategoryName)
+            if (obj == WC.CategoryName)
             {
                 return _db.Category.Select(i => new SelectListItem
                 {

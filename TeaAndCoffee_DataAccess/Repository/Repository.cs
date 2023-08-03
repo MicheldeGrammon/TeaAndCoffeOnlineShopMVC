@@ -54,18 +54,18 @@ namespace TeaAndCoffee_DataAccess.Repository
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null, bool isTracking = true)
         {
             IQueryable<T> query = dbSet;
-            if(filter!=null)
+            if (filter != null)
             {
                 query = query.Where(filter);
             }
-            if (includeProperties!=null)
+            if (includeProperties != null)
             {
-                foreach (var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
             }
-            if (orderBy!=null)
+            if (orderBy != null)
             {
                 query = orderBy(query);
             }
@@ -81,8 +81,8 @@ namespace TeaAndCoffee_DataAccess.Repository
             dbSet.Remove(entity);
         }
 
-        public void RemoveRange(IEnumerable<T> entities) 
-        { 
+        public void RemoveRange(IEnumerable<T> entities)
+        {
             dbSet.RemoveRange(entities);
         }
 

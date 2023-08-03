@@ -24,13 +24,11 @@ namespace TeaAndCoffee.Controllers
             return View(objList);
         }
 
-        //Get - Create
         public IActionResult Create()
         {
             return View();
         }
 
-        //Post - Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
@@ -46,7 +44,6 @@ namespace TeaAndCoffee.Controllers
             return View(obj);
         }
 
-        //Get - Edit
         public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
@@ -62,7 +59,6 @@ namespace TeaAndCoffee.Controllers
             return View(obj);
         }
 
-        //Post - Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Category obj)
@@ -72,14 +68,13 @@ namespace TeaAndCoffee.Controllers
                 _catRepo.Update(obj);
                 _catRepo.Save();
                 TempData[WC.Success] = "Category edit successfully";
-                return RedirectToAction("Index");              
+                return RedirectToAction("Index");
             }
             TempData[WC.Error] = "Error while deleting category";
 
             return View(obj);
         }
 
-        //Get-Delete
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -95,7 +90,6 @@ namespace TeaAndCoffee.Controllers
             return View(obj);
         }
 
-        //Post - Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)

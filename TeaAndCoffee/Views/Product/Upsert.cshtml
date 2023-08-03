@@ -11,7 +11,6 @@
         title = "Edit Product";
         <input asp-for="Product.Id" hidden />
     }
-
     <div class="border p-3 bg-white">
         <div class="form-goup row">
             <h2 class="text-info pl-3">@title</h2>
@@ -99,12 +98,10 @@
                         <div class="col">
                             @if (Model.Product.Id != 0)
                             {
-                //update
                                 <input type="submit" class="btn btn-primary w-100" value="Update" />
                             }
                             else
                             {
-                //create
                                 <input type="submit" onclick="return validateInput()" class="btn btn-primary w-100" value="Create" />
                             }
 
@@ -124,7 +121,6 @@
             </div>
         </div>
     </div>
-
 </form>
 
 @section Scripts{

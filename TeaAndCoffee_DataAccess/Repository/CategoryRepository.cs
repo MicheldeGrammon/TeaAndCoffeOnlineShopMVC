@@ -12,7 +12,7 @@ namespace TeaAndCoffee_DataAccess.Repository
     {
         private readonly ApplicationDbContext _db;
 
-        public CategoryRepository(ApplicationDbContext db):base(db)
+        public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
@@ -20,8 +20,8 @@ namespace TeaAndCoffee_DataAccess.Repository
         public void Update(Category obj)
         {
             var objFromDb = base.FirstOrDefault(x => x.Id == obj.Id);
-            if (objFromDb != null) 
-            { 
+            if (objFromDb != null)
+            {
                 objFromDb.Name = obj.Name;
                 objFromDb.DisplayOrder = obj.DisplayOrder;
             }

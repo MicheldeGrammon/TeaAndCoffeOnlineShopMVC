@@ -10,6 +10,5 @@ namespace TeaAndCoffee_Models.ViewModels
     public class OrderListVM
     {
         public IEnumerable<OrderHeader> OrderHeaderList { get; set; }
-
     }
 }
