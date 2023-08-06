@@ -4,6 +4,7 @@
 ## Описание
 Онлайн магазин чая и кофе, а так же сопутствующих товаров. Реализована авторизация пользователей: покупатель/администратор магазина, с различным функционалом.
 
+![Screenshot](https://github.com/MicheldeGrammon/TeaAndCoffeeOnlineShopMVC/blob/master/TeaAndCoffeeScreenshot.PNG)
 
 ## Возможности покупателя
 1. Регистрация на сайте;
